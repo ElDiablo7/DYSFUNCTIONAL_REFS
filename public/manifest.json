@@ -1,0 +1,17 @@
+{
+  "name": "The Dysfunctional Referees",
+  "short_name": "Dysfunctional Refs",
+  "description": "Professional rugby match officials for tournaments, festivals, fixtures and special events.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080D25",
+  "theme_color": "#080D25",
+  "icons": [
+    {
+      "src": "/assets/dysfunctional-referees-crest.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
