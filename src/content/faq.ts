@@ -34,7 +34,7 @@ export const faqs: FAQ[] = [
   {
     id: 'faq-06',
     question: 'What information should I include in a booking enquiry?',
-    answer: 'The more detail you can provide, the better. Key information includes the event date, location, rugby format, number of pitches, approximate number of matches, and any specific requirements like pitch management or referee coaching support.',
+    answer: 'The more detail you can provide, the better. Key information includes the event date, location, rugby format, number of pitches, approximate number of matches, and any specific requirements like pitch management or referee development support.',
     category: 'booking',
   },
   {

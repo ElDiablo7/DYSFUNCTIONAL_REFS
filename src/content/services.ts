@@ -69,7 +69,7 @@ export const services: Service[] = [
     id: 'svc-05',
     slug: 'pitch-management',
     title: 'Pitch & Match-Flow Management',
-    shortTitle: 'Pitch Management',
+    shortTitle: 'Pitch & Match-Flow',
     description: 'Keep your tournament running on time across multiple pitches. Dedicated pitch managers coordinate schedules, transitions, and officiating logistics.',
     fullContent: `## Pitch & Match-Flow Management\n\nThe difference between a well-run tournament and a chaotic one is rarely about the rugby. It is about the gaps between matches — the transitions, the scheduling, the communication.\n\n### What You Get\n\n- Dedicated pitch managers for multi-pitch events\n- Schedule monitoring and proactive time management\n- Coordination between referees, organisers, and team managers\n- Clear communication when schedules need adjusting\n- Support with pitch rotation and rest periods\n\n### Why It Matters\n\nWhen a tournament runs behind schedule, problems multiply. Teams miss warm-ups, referees lose recovery time, and organisers face complaints from every direction. A dedicated pitch manager prevents the small delays that cascade into big problems.\n\n### Ideal For\n\n- Multi-pitch tournaments\n- All-day sevens festivals\n- Events with tight schedules and large numbers of teams\n- Competitions with knockout stages requiring precise timing`,
     icon: 'LayoutGrid',
@@ -86,11 +86,11 @@ export const services: Service[] = [
     slug: 'referee-support',
     title: 'Referee Coordination & Support',
     shortTitle: 'Referee Support',
-    description: 'Referee coaching, peer support, and development for officials within the network. Building better referees through constructive feedback and team culture.',
-    fullContent: `## Referee Coordination & Support\n\nGood officiating does not happen by accident. It is built through feedback, development, and a team culture that helps referees improve.\n\n### What We Offer\n\n- Referee coaching and constructive pitch-side feedback\n- Peer support within the officiating team\n- Post-match reflection and development conversations\n- Guidance for newer or developing referees\n- A supportive team environment that encourages growth\n\n### Our Approach to Development\n\nEvery referee in the network has access to peer support and coaching. Whether someone is officiating their first tournament or refining their approach after years of experience, there is always room to develop. We create the environment where that happens naturally.\n\n### For Organisers\n\nWhen you book through The Dysfunctional Referees, you are not just getting match officials — you are getting officials who are actively supported, coached, and developed. That investment in our referees directly benefits your event.\n\n### For Referees\n\nJoining the network means joining a group that genuinely cares about helping you improve. No egos, no judgement — just honest feedback and practical support.`,
+    description: 'Peer support, team development, and coordination for officials within the network. Building better referees through constructive feedback and a strong team culture.',
+    fullContent: `## Referee Coordination & Support\n\nGood officiating does not happen by accident. It is built through feedback, development, and a team culture that helps referees improve.\n\n### What We Offer\n\n- Constructive pitch-side feedback from experienced officials\n- Peer support within the officiating team\n- Post-match reflection and development conversations\n- Guidance for newer or developing referees\n- A supportive team environment that encourages growth\n\n### Our Approach to Development\n\nEvery referee in the network has access to peer support and mentoring. Whether someone is officiating their first tournament or refining their approach after years of experience, there is always room to develop. We create the environment where that happens naturally.\n\n### For Organisers\n\nWhen you book through The Dysfunctional Referees, you are not just getting match officials — you are getting officials who are actively supported and developed within a strong team culture. That investment in our referees directly benefits your event.\n\n### For Referees\n\nJoining the network means joining a group that genuinely cares about helping you improve. No egos, no judgement — just honest feedback and practical support.`,
     icon: 'HeartHandshake',
     features: [
-      'Referee coaching and feedback',
+      'Constructive peer feedback',
       'Peer support network',
       'Development conversations',
       'Supportive team culture',
@@ -113,22 +113,7 @@ export const services: Service[] = [
     ],
     cta: 'Book Event Officials',
   },
-  {
-    id: 'svc-08',
-    slug: 'referee-coaching',
-    title: 'Referee Coaching & Peer Support',
-    shortTitle: 'Referee Coaching',
-    description: 'Development support for match officials at all levels. Constructive coaching, peer mentoring, and a team environment that builds better referees.',
-    fullContent: `## Referee Coaching & Peer Support\n\nEvery referee, regardless of experience, benefits from constructive feedback and a supportive team around them.\n\n### What We Provide\n\n- Pitch-side coaching from experienced officials\n- Constructive post-match feedback\n- Peer mentoring within the referee team\n- Law interpretation discussions\n- Match management development\n- Confidence building for developing referees\n\n### How It Works\n\nCoaching happens naturally within our assignments. When multiple officials attend the same event, there are built-in opportunities for observation, feedback, and reflection. We also facilitate dedicated development sessions and discussions.\n\n### For Referees Joining the Network\n\nIf you are looking to develop your refereeing, joining the network gives you access to a group of officials who are invested in each other's growth. We share knowledge, offer encouragement, and create opportunities to improve together.`,
-    icon: 'GraduationCap',
-    features: [
-      'Experienced referee coaching',
-      'Constructive feedback culture',
-      'Peer mentoring programme',
-      'Development for all levels',
-    ],
-    cta: 'Join the Team',
-  },
+
 ];
 
 export function getServiceBySlug(slug: string): Service | undefined {

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Users, User, Zap, Shield, LayoutGrid, HeartHandshake, Trophy, GraduationCap } from 'lucide-react';
+import { ArrowRight, Users, User, Zap, Shield, LayoutGrid, HeartHandshake, Trophy } from 'lucide-react';
 import type { Service } from '@/lib/types';
 
 const iconMap: Record<string, React.ElementType> = {
@@ -10,7 +10,6 @@ const iconMap: Record<string, React.ElementType> = {
   LayoutGrid,
   HeartHandshake,
   Trophy,
-  GraduationCap,
 };
 
 interface ServicesSectionProps {
@@ -75,6 +74,10 @@ export function ServicesSection({ services }: ServicesSectionProps) {
             );
           })}
         </div>
+
+        <p className="mx-auto mt-8 max-w-3xl text-center text-xs leading-relaxed text-gray-500">
+          The Dysfunctional Referees is an independent referee coordination service, not affiliated with or a replacement for official match appointments by the WRU, RFU, World Rugby, or any other governing body.
+        </p>
 
         <div className="mt-12 text-center">
           <Link href="/services" className="btn-secondary">

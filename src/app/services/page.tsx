@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { generatePageMetadata } from '@/lib/seo';
 import { getAllServices } from '@/content/services';
-import { Users, User, Zap, Shield, LayoutGrid, HeartHandshake, Trophy, GraduationCap, ArrowRight } from 'lucide-react';
+import { Users, User, Zap, Shield, LayoutGrid, HeartHandshake, Trophy, ArrowRight } from 'lucide-react';
 
 export const metadata = generatePageMetadata({
   title: 'Rugby Referee Services',
@@ -10,7 +10,7 @@ export const metadata = generatePageMetadata({
 });
 
 const iconMap: Record<string, React.ElementType> = {
-  Users, User, Zap, Shield, LayoutGrid, HeartHandshake, Trophy, GraduationCap,
+  Users, User, Zap, Shield, LayoutGrid, HeartHandshake, Trophy,
 };
 
 export default function ServicesIndexPage() {
@@ -59,6 +59,10 @@ export default function ServicesIndexPage() {
             );
           })}
         </div>
+
+        <p className="mx-auto mt-10 max-w-3xl text-center text-xs leading-relaxed text-gray-500">
+          The Dysfunctional Referees is an independent referee coordination service. Our services are supplementary and are not affiliated with, endorsed by, or a replacement for official match appointments made by the WRU, RFU, World Rugby, or any other governing body.
+        </p>
 
         <div className="mt-20 rounded-2xl border border-gold/20 bg-gradient-to-br from-navy/50 to-midnight p-10 text-center">
           <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold uppercase tracking-wide text-white">
