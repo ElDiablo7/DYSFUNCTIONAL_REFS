@@ -1,5 +1,7 @@
 import { generatePageMetadata } from '@/lib/seo';
-import Link from 'next/link';
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
+import { PrismaClient } from '@prisma/client';
 
 export const metadata = generatePageMetadata({
   title: 'Admin Dashboard',
@@ -7,83 +9,106 @@ export const metadata = generatePageMetadata({
   noIndex: true,
 });
 
-export default function AdminPage() {
-  // If no admin email is configured, show setup instructions
-  if (!process.env.ADMIN_EMAIL) {
-    return (
-      <div className="mx-auto max-w-2xl rounded-2xl border border-gold/20 bg-navy/30 p-10 text-center shadow-2xl">
-        <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold uppercase tracking-wide text-white">
-          Admin Setup Required
-        </h1>
-        <p className="mt-4 text-gray-400">
-          The administration area is not yet configured. To enable this section,
-          you must set the following environment variables:
-        </p>
-        <ul className="mt-6 space-y-2 text-sm text-gray-300">
-          <li className="rounded bg-black/20 px-3 py-2 font-mono text-pink">ADMIN_EMAIL</li>
-          <li className="rounded bg-black/20 px-3 py-2 font-mono text-pink">ADMIN_PASSWORD_HASH</li>
-          <li className="rounded bg-black/20 px-3 py-2 font-mono text-pink">DATABASE_URL</li>
-        </ul>
-        <div className="mt-10">
-          <Link href="/" className="btn-secondary">
-            Return to Public Site
-          </Link>
-        </div>
-      </div>
-    );
+const prisma = new PrismaClient();
+
+export default async function AdminPage() {
+  const session = await auth();
+
+  if (!session || !session.user) {
+    redirect('/login');
   }
 
-  // Placeholder for the actual admin login form when configured
+  // @ts-ignore - session.user.role is injected in auth.ts
+  if (session.user.role !== 'ADMIN') {
+    redirect('/profile'); // Redirect non-admins back to their profile
+  }
+
+  // Fetch all users with their media counts
+  const users = await prisma.user.findMany({
+    where: { role: 'REFEREE' },
+    include: {
+      _count: {
+        select: { media: true },
+      },
+    },
+    orderBy: { username: 'asc' },
+  });
+
+  // Fetch all media
+  const allMedia = await prisma.media.findMany({
+    include: { user: true },
+    orderBy: { createdAt: 'desc' },
+  });
+
   return (
-    <div className="mx-auto max-w-md rounded-2xl border border-white/10 bg-navy/50 p-8 shadow-2xl">
-      <div className="mb-8 text-center">
-        <h1 className="font-[family-name:var(--font-display)] text-2xl font-bold uppercase tracking-wide text-white">
-          Admin Sign In
+    <div className="mx-auto max-w-6xl px-4 py-12">
+      <div className="mb-10 border-b border-white/10 pb-6">
+        <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold uppercase tracking-wide text-white">
+          Admin Dashboard
         </h1>
-        <p className="mt-2 text-sm text-gray-400">
-          Sign in to manage referees, events, and bookings.
+        <p className="mt-2 text-gray-400">
+          Manage referees and view all uploaded media.
         </p>
       </div>
 
-      <form className="space-y-4">
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-300">
-            Email address
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            className="mt-1 block w-full rounded-lg border border-white/10 bg-black/20 px-4 py-2.5 text-white placeholder-gray-500 focus:border-pink focus:outline-none focus:ring-1 focus:ring-pink"
-            placeholder="admin@example.com"
-          />
+      <div className="mb-12">
+        <h2 className="mb-6 font-[family-name:var(--font-display)] text-2xl font-bold text-white">
+          Referee Accounts
+        </h2>
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+          {users.map((u) => (
+            <div key={u.id} className="rounded-xl border border-white/10 bg-navy/50 p-6 text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-pink/20">
+                <span className="text-xl font-bold text-pink">{u.username.charAt(0).toUpperCase()}</span>
+              </div>
+              <h3 className="font-semibold text-white">{u.username}</h3>
+              <p className="mt-1 text-sm text-gray-400">
+                {u._count.media} Uploads
+              </p>
+            </div>
+          ))}
         </div>
+      </div>
 
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-300">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            required
-            className="mt-1 block w-full rounded-lg border border-white/10 bg-black/20 px-4 py-2.5 text-white placeholder-gray-500 focus:border-pink focus:outline-none focus:ring-1 focus:ring-pink"
-          />
-        </div>
-
-        <button
-          type="button"
-          disabled
-          className="btn-primary mt-6 w-full opacity-50 cursor-not-allowed"
-        >
-          Sign In (Disabled)
-        </button>
-        <p className="mt-4 text-center text-xs text-gray-500">
-          Database connection required for authentication.
-        </p>
-      </form>
+      <div>
+        <h2 className="mb-6 font-[family-name:var(--font-display)] text-2xl font-bold text-white">
+          Global Media Gallery
+        </h2>
+        
+        {allMedia.length === 0 ? (
+          <div className="rounded-xl border border-white/5 bg-navy/30 p-10 text-center text-gray-500">
+            No media has been uploaded by referees yet.
+          </div>
+        ) : (
+          <div className="columns-2 gap-4 space-y-4 md:columns-3 lg:columns-4">
+            {allMedia.map((media) => (
+              <div key={media.id} className="break-inside-avoid overflow-hidden rounded-lg bg-black border border-white/5">
+                {media.type === 'PHOTO' ? (
+                  <img
+                    src={media.url}
+                    alt={`Uploaded by ${media.user.username}`}
+                    className="w-full object-cover"
+                  />
+                ) : (
+                  <video
+                    src={media.url}
+                    className="w-full object-cover"
+                    controls
+                  />
+                )}
+                <div className="p-3">
+                  <p className="text-xs font-semibold text-white">
+                    {media.user.username}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {new Date(media.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
