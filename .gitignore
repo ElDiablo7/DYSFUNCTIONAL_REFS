@@ -12,3 +12,6 @@ next-env.d.ts
 Thumbs.db
 prisma/*.db
 prisma/*.db-journal
+
+/src/generated/prisma
+/public/uploads
