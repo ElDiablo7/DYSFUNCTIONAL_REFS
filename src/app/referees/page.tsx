@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { generatePageMetadata } from '@/lib/seo';
 import { getAllReferees } from '@/content/referees';
@@ -34,13 +35,23 @@ export default function RefereesIndexPage() {
               className="card group overflow-hidden"
             >
               <div className="relative h-56 bg-gradient-to-br from-navy to-midnight">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="flex h-24 w-24 items-center justify-center rounded-full bg-pink/10">
-                    <span className="font-[family-name:var(--font-display)] text-3xl font-bold text-pink">
-                      {referee.name.split(' ').map(n => n[0]).join('')}
-                    </span>
+                {referee.image && referee.image !== '/assets/referees/placeholder.jpg' ? (
+                  <Image
+                    src={referee.image}
+                    alt={`Photo of ${referee.name}`}
+                    fill
+                    className="object-cover object-top"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="flex h-24 w-24 items-center justify-center rounded-full bg-pink/10">
+                      <span className="font-[family-name:var(--font-display)] text-3xl font-bold text-pink">
+                        {referee.name.split(' ').map(n => n[0]).join('')}
+                      </span>
+                    </div>
                   </div>
-                </div>
+                )}
                 <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-metallic-gold opacity-50 transition-opacity group-hover:opacity-100" />
               </div>
 

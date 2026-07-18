@@ -34,13 +34,23 @@ export function FeaturedReferees({ referees }: FeaturedRefereesProps) {
             >
               {/* Image placeholder */}
               <div className="relative h-48 bg-gradient-to-br from-navy to-midnight">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="flex h-20 w-20 items-center justify-center rounded-full bg-pink/10">
-                    <span className="font-[family-name:var(--font-display)] text-2xl font-bold text-pink">
-                      {referee.name.split(' ').map(n => n[0]).join('')}
-                    </span>
+                {referee.image && referee.image !== '/assets/referees/placeholder.jpg' ? (
+                  <Image
+                    src={referee.image}
+                    alt={`Photo of ${referee.name}`}
+                    fill
+                    className="object-cover object-top"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-pink/10">
+                      <span className="font-[family-name:var(--font-display)] text-2xl font-bold text-pink">
+                        {referee.name.split(' ').map(n => n[0]).join('')}
+                      </span>
+                    </div>
                   </div>
-                </div>
+                )}
                 {/* Gold accent line */}
                 <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-metallic-gold opacity-50" />
               </div>

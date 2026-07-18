@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PersonJsonLd } from '@/components/seo/JsonLd';
 import { generatePageMetadata } from '@/lib/seo';
@@ -54,13 +55,24 @@ export default function RefereeProfilePage({ params }: { params: { slug: string 
             <div className="lg:col-span-4">
               <div className="card overflow-hidden sticky top-24">
                 <div className="relative aspect-square bg-gradient-to-br from-navy to-midnight">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="flex h-32 w-32 items-center justify-center rounded-full bg-pink/10">
-                      <span className="font-[family-name:var(--font-display)] text-5xl font-bold text-pink">
-                        {referee.name.split(' ').map(n => n[0]).join('')}
-                      </span>
+                  {referee.image && referee.image !== '/assets/referees/placeholder.jpg' ? (
+                    <Image
+                      src={referee.image}
+                      alt={`Photo of ${referee.name}`}
+                      fill
+                      className="object-cover object-top"
+                      sizes="(max-width: 1024px) 100vw, 33vw"
+                      priority
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="flex h-32 w-32 items-center justify-center rounded-full bg-pink/10">
+                        <span className="font-[family-name:var(--font-display)] text-5xl font-bold text-pink">
+                          {referee.name.split(' ').map(n => n[0]).join('')}
+                        </span>
+                      </div>
                     </div>
-                  </div>
+                  )}
                   <div className="absolute bottom-0 left-0 right-0 h-1 bg-metallic-gold" />
                 </div>
                 
