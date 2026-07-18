@@ -8,9 +8,9 @@ export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://dysfunctionalreferees.com',
   
   contact: {
-    email: 'info@dysfunctionalreferees.com', // TODO: Replace with real email
-    telephone: '', // TODO: Add real phone number
-    whatsapp: '', // TODO: Add WhatsApp number
+    email: 'moxy29@icloud.com',
+    telephone: '07312717015',
+    whatsapp: '07312717015',
     address: {
       street: '', // TODO: Add when available
       city: '', // TODO: Add when available
