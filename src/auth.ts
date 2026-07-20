@@ -15,14 +15,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) {
+          console.log("Missing credentials");
           return null;
         }
 
+        const normalizedUsername = (credentials.username as string).toLowerCase().trim();
+        console.log(`Attempting login for username: ${normalizedUsername}`);
+
         const user = await prisma.user.findUnique({
-          where: { username: credentials.username as string },
+          where: { username: normalizedUsername },
         });
 
         if (!user) {
+          console.log(`User not found: ${normalizedUsername}`);
           return null;
         }
 
