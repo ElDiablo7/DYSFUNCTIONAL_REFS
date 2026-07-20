@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { CheckCircle2, AlertCircle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
+import { submitEnquiry } from '@/actions/enquiries';
 
 // Use a simplified schema for the UI implementation
 const bookingSchema = z.object({
@@ -37,11 +38,14 @@ export default function BookPage() {
 
   const onSubmit = async (data: BookingFormValues) => {
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    console.log('Booking submitted:', data);
+    const result = await submitEnquiry(data, 'BOOKING');
     setIsSubmitting(false);
-    setIsSuccess(true);
+    
+    if (result.success) {
+      setIsSuccess(true);
+    } else {
+      alert('Failed to submit enquiry. Please try again.');
+    }
   };
 
   if (isSuccess) {

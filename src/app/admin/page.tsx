@@ -40,6 +40,11 @@ export default async function AdminPage() {
     orderBy: { createdAt: 'desc' },
   });
 
+  // Fetch enquiries
+  const enquiries = await prisma.enquiry.findMany({
+    orderBy: { createdAt: 'desc' },
+  });
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">
       <div className="mb-10 border-b border-white/10 pb-6">
@@ -47,8 +52,57 @@ export default async function AdminPage() {
           Admin Dashboard
         </h1>
         <p className="mt-2 text-gray-400">
-          Manage referees and view all uploaded media.
+          Manage referees, view all uploaded media, and handle enquiries.
         </p>
+      </div>
+
+      <div className="mb-12">
+        <h2 className="mb-6 font-[family-name:var(--font-display)] text-2xl font-bold text-white">
+          Recent Enquiries
+        </h2>
+        {enquiries.length === 0 ? (
+          <div className="rounded-xl border border-white/5 bg-navy/30 p-10 text-center text-gray-500">
+            No booking or join enquiries have been received yet.
+          </div>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2">
+            {enquiries.map((enq) => {
+              const details = JSON.parse(enq.details);
+              return (
+                <div key={enq.id} className="rounded-xl border border-white/10 bg-navy/50 p-6">
+                  <div className="flex items-start justify-between mb-4 border-b border-white/10 pb-4">
+                    <div>
+                      <span className={`inline-block rounded-full px-2.5 py-1 text-xs font-semibold ${enq.type === 'BOOKING' ? 'bg-pink/20 text-pink' : 'bg-gold/20 text-gold-bright'}`}>
+                        {enq.type}
+                      </span>
+                      <h3 className="mt-2 font-bold text-white text-lg">{enq.name}</h3>
+                      <a href={`mailto:${enq.email}`} className="text-sm text-gray-400 hover:text-pink block">{enq.email}</a>
+                      {enq.telephone && <a href={`tel:${enq.telephone}`} className="text-sm text-gray-400 hover:text-pink block">{enq.telephone}</a>}
+                    </div>
+                    <div className="text-right text-xs text-gray-500">
+                      {new Date(enq.createdAt).toLocaleDateString()}
+                    </div>
+                  </div>
+                  <div className="space-y-2 text-sm text-gray-300">
+                    {enq.type === 'BOOKING' ? (
+                      <>
+                        <p><strong>Organisation:</strong> {details.organisation}</p>
+                        <p><strong>Event:</strong> {details.eventName} on {details.eventDate}</p>
+                        <p><strong>Format:</strong> {details.format} at {details.venue}</p>
+                        {details.message && <p className="mt-2 text-gray-400 italic">"{details.message}"</p>}
+                      </>
+                    ) : (
+                      <>
+                        <p><strong>Location:</strong> {details.location}</p>
+                        <p className="mt-2 text-gray-400 italic">"{details.experience}"</p>
+                      </>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       <div className="mb-12">

@@ -25,3 +25,14 @@ model Media {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 }
+
+model Enquiry {
+  id        String   @id @default(cuid())
+  type      String   // "BOOKING" or "JOIN"
+  name      String
+  email     String
+  telephone String?
+  details   String   // JSON string of all specific fields
+  status    String   @default("NEW") // "NEW" or "REVIEWED"
+  createdAt DateTime @default(now())
+}

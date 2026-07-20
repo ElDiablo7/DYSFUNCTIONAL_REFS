@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { CheckCircle2, AlertCircle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
+import { submitEnquiry } from '@/actions/enquiries';
 
 // Use a simplified schema for the UI implementation
 const joinSchema = z.object({
@@ -33,11 +34,14 @@ export default function JoinPage() {
 
   const onSubmit = async (data: JoinFormValues) => {
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    console.log('Application submitted:', data);
+    const result = await submitEnquiry(data, 'JOIN');
     setIsSubmitting(false);
-    setIsSuccess(true);
+    
+    if (result.success) {
+      setIsSuccess(true);
+    } else {
+      alert('Failed to submit application. Please try again.');
+    }
   };
 
   if (isSuccess) {
