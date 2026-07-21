@@ -39,14 +39,14 @@ export default function BookPage() {
   const onSubmit = async (data: BookingFormValues) => {
     setIsSubmitting(true);
     try {
-      const response = await fetch('https://formsubmit.co/ajax/moxy29@icloud.com', {
+      const response = await fetch('/api/enquiry', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          _subject: `New Booking Enquiry from ${data.fullName}`,
+          type: 'BOOKING',
           ...data
         })
       });

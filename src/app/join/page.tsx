@@ -35,14 +35,14 @@ export default function JoinPage() {
   const onSubmit = async (data: JoinFormValues) => {
     setIsSubmitting(true);
     try {
-      const response = await fetch('https://formsubmit.co/ajax/moxy29@icloud.com', {
+      const response = await fetch('/api/enquiry', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          _subject: `New Application to Join from ${data.fullName}`,
+          type: 'JOIN',
           ...data
         })
       });
