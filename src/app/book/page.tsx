@@ -39,14 +39,17 @@ export default function BookPage() {
   const onSubmit = async (data: BookingFormValues) => {
     setIsSubmitting(true);
     try {
-      const response = await fetch('/api/enquiry', {
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          type: 'BOOKING',
+          access_key: 'c8ff8750-040e-4257-803a-63a32315281a',
+          subject: `New Booking Enquiry from ${data.fullName}`,
+          from_name: 'Dysfunctional Referees Website',
+          replyto: data.email,
           ...data
         })
       });
