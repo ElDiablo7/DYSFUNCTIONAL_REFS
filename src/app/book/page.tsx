@@ -38,14 +38,30 @@ export default function BookPage() {
 
   const onSubmit = async (data: BookingFormValues) => {
     setIsSubmitting(true);
-    const result = await submitEnquiry(data, 'BOOKING');
-    setIsSubmitting(false);
-    
-    if (result.success) {
-      setIsSuccess(true);
-    } else {
-      alert('Failed to submit enquiry. Please try again.');
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/moxy29@icloud.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: `New Booking Enquiry from ${data.fullName}`,
+          ...data
+        })
+      });
+      
+      const result = await response.json();
+      if (result.success === 'true' || result.success === true) {
+        setIsSuccess(true);
+      } else {
+        alert('Failed to submit enquiry. Please try again.');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('An error occurred while submitting. Please try again.');
     }
+    setIsSubmitting(false);
   };
 
   if (isSuccess) {
